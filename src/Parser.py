@@ -1,4 +1,3 @@
-import re
 import src.API_Link as API
 
 '''
@@ -39,21 +38,6 @@ def parse_recipes_from_item(s):
     :return: The dictionary of recipes for an item.
     """
 
-    """
-    {   
-        "id": 7319,
-        "output_item_id": 46742,
-        "output_item_count": 1,
-        "time_to_craft_ms": 5000,
-        "disciplines": ["Armorsmith", "Artificer", "Huntsman", "Weaponsmith"],
-        "ingredients": [
-            {"item_id": 19684, "count": 50},
-            {"item_id": 19721, "count": 1},
-            {"item_id": 46747, "count": 10}
-        ],
-        
-    }
-    """
     out = dict()
     for x in s:
         out[x] = parse_recipe(API.getRecipe(x)[1])
@@ -62,12 +46,12 @@ def parse_recipes_from_item(s):
 
 def parse_recipe(s):
     """
-    :param s: A recipe ID
+    :param s: API Recipe JSON Object
     :return: The dictionary of relevant recipe data
     """
 
     out = {'itmID': s['output_item_id'], 'count': s['output_item_count'], 'craft_time': s['time_to_craft_ms'],
-                        'crafter_class': s['disciplines'], 'components': s['ingredients']}
+           'crafter_class': s['disciplines'], 'components': s['ingredients']}
     return out
 
 

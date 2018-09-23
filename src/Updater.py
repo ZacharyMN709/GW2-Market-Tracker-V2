@@ -7,11 +7,6 @@ import src.Database_Link as DB
 ###############################
 ### Formatting and Printing ###
 ###############################
-def LinePrint(s, c, m=4):
-    space = "   "
-    if(c % m == 0): space = "\n"
-    print(s, end=space)
-
 def IterPrint(out, count):
     if(count % 25 == 0): out += " "
     if(count % 50 == 0): out += str(count) + '\n'
@@ -27,7 +22,7 @@ def printSleep(count):
     print(spacer, end='')
     time.sleep(30)
 
-def getTime(): return time.asctime( time.localtime(time.time()) )
+def getTime(): return time.asctime(time.localtime(time.time()))
 def getTimestamp(): return '"' + getTime() + '",'
 ##############################################
 
@@ -120,7 +115,7 @@ def TrawlAllRecipes(start=None, end=None):
     with open(direc + 'RecipeMasterList.txt', 'w') as l:
         l.write(getTime() + '\n')
 
-    market = DB.DatabaseLink('gw2_personal_inventory')
+    market = DB.DatabaseLink('gw2_market_data')
     query = "INSERT INTO Recipes VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"
     classes = ['Artificer', 'Armorsmith', 'Chef', 'Huntsman', 'Jeweler', 'Leatherworker', 'Tailor', 'Weaponsmith', 'Scribe']
 
@@ -142,4 +137,6 @@ if __name__ == '__main__':
     ## TODO - Add in more robust handling of trawling.
     ## Skip entries already found, and give the option to wipe and start over.
     # TrawlAllRecipes()
-    TrawlAllItems(start=20003)
+    # TrawlAllItems(start=20003)
+    market = DB.DatabaseLink('gw2_market_data')
+    market.initialize()
