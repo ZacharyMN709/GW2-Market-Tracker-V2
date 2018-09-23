@@ -1,49 +1,7 @@
 import time
-import os
-import sqlite3
 import src.Trawler as Trawler
 import src.API_Link as API
-
-market, inventory = None, None
-
-
-#####################
-### Database Code ###
-#####################
-def connect_db():
-    """
-    Connect to the database and return the connection.
-
-    Keyword arguments:
-    test -- boolean flag to indicate whether or not to use the testing database (default False)
-    """
-
-    ## __enter__, __exit__
-    market = sqlite3.connect(os.path.join(os.curdir, 'gw2_market_data.db'), check_same_thread=False)
-    market.row_factory = sqlite3.Row
-
-    inventory = sqlite3.connect(os.path.join(os.curdir, 'gw2_personal_inventory.db'), check_same_thread=False)
-    inventory.row_factory = sqlite3.Row
-    return market, inventory
-
-
-def close_db():
-    """Close the connection to the database."""
-    market.close()
-    inventory.close()
-
-
-def init_db():
-    """Initialize a database from the schema file."""
-    market, inventory = connect_db()
-    with open('market_data_schema.sql', mode='r') as a:
-        market.cursor().executescript(a.read())
-        market.commit()
-    with open('inventory_data_schema', mode='r') as b:
-        inventory.cursor().executescript(b.read())
-        inventory.commit()
-
-    print('Initialized the database.')
+import src.Database_Link as DB
 
 
 ###############################
@@ -65,7 +23,7 @@ def printSleep(count):
     print("\n" + getTime() + "\nRequest Limit Reached at Count: " + str(count))
     print("Sleeping thread. Attempting to continue in 30 seconds.\n")
     mod = (count - 1) % 50
-    spacer = (" " * mod) + (" " * (mod > 25))
+    spacer = (" " * mod) + (" " * (mod >= 25))
     print(spacer, end='')
     time.sleep(30)
 
@@ -111,7 +69,7 @@ def TrawlAllItems(start=None, end=None):
     with open(direc + 'ErrantItems.txt', 'w') as e:
         e.write(getTime() + '\n')
 
-    conn, _ = connect_db()
+    market = DB.DatabaseLink('gw2_market_data')
     query = "INSERT INTO Items VALUES (?, ?, ?, ?, ?);"
     craftable_query = "SELECT recID FROM Recipes WHERE itmID = ?"
 
@@ -119,15 +77,15 @@ def TrawlAllItems(start=None, end=None):
         count += 1
         out, item = AttemptItemTrawl(x, count)
         if out == ".":
-            craftable = conn.execute(craftable_query, (x,)).fetchall()
-            conn.execute(query, (x, item[0], item[1], item[2], len(craftable) > 0))
+            craftable = market.conn.execute(craftable_query, (x,)).fetchall()
+            market.conn.execute(query, (x, item[0], item[1], item[2], len(craftable) > 0))
         else:
             with open(direc + 'ErrantItems.txt', 'a') as e:
                 e.write(str(count) + "-" + str(x) + ": " + str(item) + "\n")
         with open(direc + 'ItemsMasterList.txt', 'a') as i:
             i.write(IterPrint(out, count))
-    conn.commit()
-    conn.close()
+    market.commit()
+    market.close()
 
 
 def TrawlAllRecipes(start=None, end=None):
@@ -146,7 +104,7 @@ def TrawlAllRecipes(start=None, end=None):
         return out, recipe
 
     count = 0
-    direc = "../Logs"
+    direc = "../Logs/"
     check, lst = API.getRecipe()
     if check != '?':
         return
@@ -162,7 +120,7 @@ def TrawlAllRecipes(start=None, end=None):
     with open(direc + 'RecipeMasterList.txt', 'w') as l:
         l.write(getTime() + '\n')
 
-    conn, _ = connect_db()
+    market = DB.DatabaseLink('gw2_personal_inventory')
     query = "INSERT INTO Recipes VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"
     classes = ['Artificer', 'Armorsmith', 'Chef', 'Huntsman', 'Jeweler', 'Leatherworker', 'Tailor', 'Weaponsmith', 'Scribe']
 
@@ -170,18 +128,18 @@ def TrawlAllRecipes(start=None, end=None):
         count += 1
         out, recipe = AttemptRecipeTrawl(x, count)
         if out == "." and 'upgrade_id' not in recipe:
-            conn.execute(query, [x, recipe['itmID'], recipe['count'], str([(a['item_id'], a['count']) for a in recipe['components']]), recipe['count']] + [c in recipe['crafter_class'] for c in classes])
+            market.conn.execute(query, [x, recipe['itmID'], recipe['count'], str([(a['item_id'], a['count']) for a in recipe['components']]), recipe['count']] + [c in recipe['crafter_class'] for c in classes])
         else:
             with open(direc + 'ErrantRecipes.txt', 'a') as e:
                 e.write(str(count) + "-" + str(x) + ": " + str(recipe) + "\n")
         with open(direc + 'RecipeMasterList.txt', 'a') as l:
             l.write(IterPrint(out, count))
-    conn.commit()
-    conn.close()
+    market.commit()
+    market.close()
 
 
 if __name__ == '__main__':
     ## TODO - Add in more robust handling of trawling.
     ## Skip entries already found, and give the option to wipe and start over.
-    #TrawlAllRecipes()
-    TrawlAllItems(start=20000+1)
+    # TrawlAllRecipes()
+    TrawlAllItems(start=20003)
