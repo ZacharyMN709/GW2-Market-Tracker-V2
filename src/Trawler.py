@@ -1,27 +1,21 @@
 import src.API_Link as API
 import src.Parser as Parser
+from Objects.Item import Item
+from Objects.Recipe import Recipe
 
 #######################
 ### Struct Trawlers ###
 #######################
-def TrawlItem(ids, forceloop=False, prt=False):
-    l = []
-    out, s, = API.getItem(ids, forceloop=False)
-
+def TrawlItem(ids):
+    out, s = API.get_item(ids)
     if out == "?":
-        l.append(s.get('name'))
-        l.append(s.get('icon'))
-        l.append('NoSell' not in s.get('flags'))
-        if len(l) == 3:
-            out = "."
-        else:
-            out = "1"
-    return out, tuple(l)
+        item = Item.from_web(ids, s.get('name'), s.get('icon'), 'NoSell' not in s.get('flags'))
+        out = "."
+        return out, item
 
-
-def TrawlRecipeByOutput(ids, prt=True, forceloop=False):
+def TrawlRecipeByOutput(ids, prt=True):
     d = dict()
-    out, s, = API.searchRecipeByOutput(ids, forceloop=False)
+    out, s, = API.searchRecipeByOutput(ids)
 
     if out == "?":
         out, d = Parser.parse_recipes_from_item(s)
@@ -29,9 +23,9 @@ def TrawlRecipeByOutput(ids, prt=True, forceloop=False):
     return out, d
 
 
-def TrawlRecipe(ids, prt=True, forceloop=False):
+def TrawlRecipe(ids, prt=True):
     d = dict()
-    out, s = API.getRecipe(ids, forceloop=False)
+    out, s = API.getRecipe(ids)
 
     if out == "?":
         d = Parser.parse_recipe(s)

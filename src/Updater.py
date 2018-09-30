@@ -2,6 +2,9 @@ import time
 import src.Trawler as Trawler
 import src.API_Link as API
 import src.Database_Link as DB
+from sqlite3 import IntegrityError
+from Objects.Item import MalformedItemError
+
 
 
 ###############################
@@ -12,15 +15,6 @@ def IterPrint(out, count):
     if(count % 50 == 0): out += str(count) + '\n'
     print(out, end="")
     return out
-
-def printSleep(count):
-    # TODO - Use .format to print
-    print("\n" + getTime() + "\nRequest Limit Reached at Count: " + str(count))
-    print("Sleeping thread. Attempting to continue in 30 seconds.\n")
-    mod = (count - 1) % 50
-    spacer = (" " * mod) + (" " * (mod >= 25))
-    print(spacer, end='')
-    time.sleep(30)
 
 def getTime(): return time.asctime(time.localtime(time.time()))
 def getTimestamp(): return '"' + getTime() + '",'
@@ -33,22 +27,9 @@ def getTimestamp(): return '"' + getTime() + '",'
 ####################
 
 def TrawlAllItems(start=None, end=None):
-    ## Convert file to utf-8
-    def AttemptItemTrawl(ids, count):
-        out, item = Trawler.TrawlItem(ids, forceloop=True)
-        if(out == "O"):
-            out = "."
-        elif(out == "S"):
-            printSleep(count)
-            return AttemptItemTrawl(ids, count)
-        elif(out in "U12"):
-            out = "!"
-
-        return out, item
-
     count = 0
     direc = "../Logs/"
-    check, lst = API.getItem()
+    check, lst = API.get_item()
     if check != '?':
         return
     if start:
@@ -59,37 +40,36 @@ def TrawlAllItems(start=None, end=None):
 
     print("Items in list: " + str(len(lst)))
 
-    with open(direc + 'ItemsMasterList.txt', 'w') as i:
-        i.write(getTime() + '\n')
-    with open(direc + 'ErrantItems.txt', 'w') as e:
-        e.write(getTime() + '\n')
-
     market = DB.DatabaseLink('gw2_market_data')
-    query = "INSERT INTO Items VALUES (?, ?, ?, ?, ?);"
-    craftable_query = "SELECT recID FROM Recipes WHERE itmID = ?"
 
-    for x in lst:
-        count += 1
-        out, item = AttemptItemTrawl(x, count)
-        if out == ".":
-            craftable = market.conn.execute(craftable_query, (x,)).fetchall()
-            market.conn.execute(query, (x, item[0], item[1], item[2], len(craftable) > 0))
-        else:
-            with open(direc + 'ErrantItems.txt', 'a') as e:
-                e.write(str(count) + "-" + str(x) + ": " + str(item) + "\n")
-        with open(direc + 'ItemsMasterList.txt', 'a') as i:
-            i.write(IterPrint(out, count))
-    market.commit()
+    with open(direc + 'ItemsMasterList.txt', 'w') as i:
+        # Update the log time with the most recent run.
+        i.write(getTime() + '\n')
+        with open(direc + 'ErrantItems.txt', 'w') as e:
+            # Update the log time with the most recent run.
+            e.write(getTime() + '\n')
+        for x in lst:
+            count += 1
+            check_char = "."
+            if not market.conn.execute("SELECT itmID FROM Items WHERE itmID = ?", (x,)).fetchall():
+                try:
+                    item = API.get_item(x)
+                    item.set_craftable(market)
+                    item.save_item_to_db(market)
+                except MalformedItemError as err:
+                    check_char = '!'
+                    with open(direc + 'ErrantItems.txt', 'a') as e:
+                        e.write("Ct: {}  -  {}\n".format(count, err))
+            i.write(IterPrint(check_char, count))
     market.close()
 
 
 def TrawlAllRecipes(start=None, end=None):
     def AttemptRecipeTrawl(ids, count):
-        out, recipe = Trawler.TrawlRecipe(ids, prt=False, forceloop=True)
+        out, recipe = Trawler.TrawlRecipe(ids, prt=False)
         if(out in "OU"):
             out = "."
         elif(out == "S"):
-            printSleep(count)
             return AttemptRecipeTrawl(ids, count)
         elif(out in "12"):
             out = "!"
@@ -136,7 +116,5 @@ def TrawlAllRecipes(start=None, end=None):
 if __name__ == '__main__':
     ## TODO - Add in more robust handling of trawling.
     ## Skip entries already found, and give the option to wipe and start over.
-    # TrawlAllRecipes()
-    # TrawlAllItems(start=20003)
-    market = DB.DatabaseLink('gw2_market_data')
-    market.initialize()
+    #TrawlAllRecipes()
+    TrawlAllItems()

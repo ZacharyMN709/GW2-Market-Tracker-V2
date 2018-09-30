@@ -23,9 +23,6 @@ class DatabaseLink:
     def connect(self):
         """
         Connect to the database and return the connection.
-
-        Keyword arguments:
-        test -- boolean flag to indicate whether or not to use the testing database (default False)
         """
 
         conn = sqlite3.connect(os.path.join(self.path, self.name + ".db"), check_same_thread=False)
