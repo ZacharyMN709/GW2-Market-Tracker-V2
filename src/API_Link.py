@@ -4,6 +4,7 @@ import urllib3.exceptions as U3
 import requests.exceptions as REQ
 import time
 from Objects.Item import Item
+from Objects.Recipe import Recipe
 
 TIMEOUT = 10
 baseURL = "https://api.guildwars2.com/v2/"
@@ -56,8 +57,14 @@ def check_response(s):
 #####################
 ### API Accessors ###
 #####################
-def getRecipe(ids=None):
-    return connection_safety_wrapper(gw2.recipes.get, ids=ids)
+def get_recipe_list():
+    return connection_safety_wrapper(gw2.recipes.get)
+
+
+def get_recipe(ids=None):
+    s = connection_safety_wrapper(gw2.recipes.get, ids=ids)
+    return Recipe.from_web(s.get('id'), s.get('output_item_id'), s.get('output_item_count'),
+                           s.get('time_to_craft_ms'), s.get('disciplines'), s.get('ingredients'))
 
 
 def searchRecipeByOutput(ids):
@@ -70,10 +77,13 @@ def searchRecipeByInput(ids):
                                      url=baseURL + 'recipes/search?input=' + str(ids))
 
 
+def get_item_list():
+    return connection_safety_wrapper(gw2.items.get)
+
+
 def get_item(ids=None):
     s = connection_safety_wrapper(gw2.items.get, ids=ids)
-    item = Item.from_web(ids, s.get('name'), s.get('icon'), 'NoSell' not in s.get('flags'))
-    return item
+    return Item.from_web(ids, s.get('name'), s.get('icon'), 'NoSell' not in s.get('flags'))
 
 
 def getPrices(ids):

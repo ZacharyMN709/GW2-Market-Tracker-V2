@@ -6,12 +6,6 @@ from Objects.Recipe import Recipe
 #######################
 ### Struct Trawlers ###
 #######################
-def TrawlItem(ids):
-    out, s = API.get_item(ids)
-    if out == "?":
-        item = Item.from_web(ids, s.get('name'), s.get('icon'), 'NoSell' not in s.get('flags'))
-        out = "."
-        return out, item
 
 def TrawlRecipeByOutput(ids, prt=True):
     d = dict()
@@ -23,15 +17,6 @@ def TrawlRecipeByOutput(ids, prt=True):
     return out, d
 
 
-def TrawlRecipe(ids, prt=True):
-    d = dict()
-    out, s = API.getRecipe(ids)
-
-    if out == "?":
-        d = Parser.parse_recipe(s)
-    if (prt): print(out, end="")
-    return out, d
-
 def TrawlCraftingTree(ids, tree=False):
     print("Trawling Recipes and Items...")
 
@@ -39,7 +24,7 @@ def TrawlCraftingTree(ids, tree=False):
         new_items = dict()
         new_recipes = dict()
         final_out = []
-        item_out, l = TrawlItem(ids)
+        item_out, l = API.get_item(ids)
         new_items[ids] = l
         out, d = TrawlRecipe(ids, prt=False)
         if (d): new_recipes[ids] = d
