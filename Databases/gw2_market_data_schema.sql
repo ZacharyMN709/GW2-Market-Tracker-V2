@@ -22,5 +22,5 @@ CREATE TABLE Items (
     name      STRING  NOT NULL,
     icon      TEXT    NOT NULL,
     sellable  BOOLEAN NOT NULL,
-    craftable BOOLEAN
+    craftable BOOLEAN NOT NULL
 );

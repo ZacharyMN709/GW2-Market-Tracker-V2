@@ -7,15 +7,6 @@ from Objects.Recipe import Recipe
 ### Struct Trawlers ###
 #######################
 
-def TrawlRecipeByOutput(ids, prt=True):
-    d = dict()
-    out, s, = API.searchRecipeByOutput(ids)
-
-    if out == "?":
-        out, d = Parser.parse_recipes_from_item(s)
-    if (prt): print(out, end="")
-    return out, d
-
 
 def TrawlCraftingTree(ids, tree=False):
     print("Trawling Recipes and Items...")

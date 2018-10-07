@@ -32,18 +32,6 @@ def GetDamaskPrice(time):
 '''
 
 
-def parse_recipes_from_item(s):
-    """
-    :param s: A list of recipe ids, which is the output of searching recipes by output
-    :return: The dictionary of recipes for an item.
-    """
-
-    out = dict()
-    for x in s:
-        out[x] = parse_recipe(API.getRecipe(x)[1])
-    return out
-
-
 def parse_recipe(s):
     """
     :param s: API Recipe JSON Object

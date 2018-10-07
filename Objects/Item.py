@@ -7,6 +7,7 @@ class MalformedItemError(Exception):
 
 SAVE_ITEM_QUERY = "INSERT INTO Items VALUES (?, ?, ?, ?, ?);"
 IS_CRAFTABLE_QUERY = "SELECT recID FROM Recipes WHERE itmID = ?"
+IS_IN_DATABSE = "SELECT itmID FROM Items WHERE itmID = ?"
 
 
 class Item:
@@ -22,11 +23,25 @@ class Item:
         self.craftable = len(db_link.conn.execute(IS_CRAFTABLE_QUERY, (self.itmID,)).fetchall()) > 0
 
     def save_item_to_db(self, db_link):
-        db_link.conn.execute(SAVE_ITEM_QUERY, (self.itmID, self.name, self.icon, self.sellable, self.craftable))
-        db_link.conn.commit()
+        """
+        Saves item to database, or skips it if already present.
+        :param db_link: The 'Database_Link' object
+        :return: '.' or ','. '.' indicates the item was added, ',' indicates it was already there.
+        """
+        if not db_link.conn.execute(IS_IN_DATABSE, (self.itmID,)).fetchall():
+            db_link.conn.execute(SAVE_ITEM_QUERY, (self.itmID, self.name, self.icon, self.sellable, self.craftable))
+            db_link.conn.commit()
+            return "."
+        else:
+            ## TODO - Update if item is already in DB
+            return ","
 
     @classmethod
     def from_web(cls, itmID, name, icon, sellable):
+        ## TODO - Do some of the handling inside the objects.
+        """
+        Initialises the object from the API response
+        """
         if (name is None) or (icon is None):
             if (name is None) and (icon is None):
                 raise MalformedItemError("Name and icon are 'None' for item with ID {}".format(itmID))

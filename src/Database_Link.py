@@ -4,12 +4,13 @@ import os
 
 class DatabaseLink:
     """
-    A helper class which uses a string to open the corresponding database. Has helper functions to initialise the
-    database when empty, and automatically closes the connection when the object goes out of scope.
+    A helper class which opens the database. Has helper functions to initialise the database when empty,
+     and automatically closes the connection when the object goes out of scope.
     """
 
-    def __init__(self, db_name):
-        self.name = db_name
+    ## TODO - Better handle database hardcode, and consider how to merge databases.
+    def __init__(self):
+        self.name = 'gw2_market_data'
         self.path = 'C:\\Users\\Zachary\\Documents\\GitHub\\GW2-Market-Tracker-V2\\Databases\\'
         self.conn = self.connect()
         pass
@@ -21,10 +22,7 @@ class DatabaseLink:
         self.close()
 
     def connect(self):
-        """
-        Connect to the database and return the connection.
-        """
-
+        """Connect to the database and return the connection."""
         conn = sqlite3.connect(os.path.join(self.path, self.name + ".db"), check_same_thread=False)
         conn.row_factory = sqlite3.Row
 
