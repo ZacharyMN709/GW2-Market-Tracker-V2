@@ -18,7 +18,7 @@ def connection_safety_wrapper(method_to_run, ids=None, url=None):
     This function is an encapsulating function which protects the code from crashing from connection errors
     or the API being down. If there is an error, it will retry the connection in a predetermined amount of time.
 
-    :param method_to_run: A reference to a function which accesses the particular API enpoint
+    :param method_to_run: A reference to a function which accesses the particular API endpoint
     :param ids: The ids to be trawled. Can be None, int or list of ints.
     :param url: An override for some of the API endpoints. This effectively
     :return: None if the response is 'empty' or the response.
@@ -27,10 +27,10 @@ def connection_safety_wrapper(method_to_run, ids=None, url=None):
     def check_response(s):
         """
         :param s: The API response.
-        :return: A chracter which represents the validity of the response.
+        :return: A character which represents the validity of the response.
         """
         a = str(s)
-        if a == "":                                 check_char = "!"
+        if a == "":                                 check_char = "U"
         elif a == "{'text': 'no such id'}":         check_char = "U"
         elif a == "[]":                             check_char = "U"
         elif a == "{}":                             check_char = "U"
@@ -40,9 +40,8 @@ def connection_safety_wrapper(method_to_run, ids=None, url=None):
 
         return check_char
 
-    ## TODO - Remove recursion and use a loop.
-    s = "E"
-    while s in "DESU":
+    check_char = 'E'
+    while check_char in "DESU":
         try:
             if url:   s = method_to_run(id=ids, url=url, timeout=TIMEOUT)
             elif ids: s = method_to_run(id=ids, timeout=TIMEOUT)
@@ -55,20 +54,20 @@ def connection_safety_wrapper(method_to_run, ids=None, url=None):
             print("\nConnection Error Handled - REQ", end=" ")
         except TimeoutError:
             print("\nTimeout Error Handled", end=" ")
-
-        check_char = check_response(s)
+        else:
+            check_char = check_response(s)
 
         if check_char == 'D':
-            print("API is down. Attempting to continue in 10 minutes.\n")
+            print("\nAPI is down. Attempting to continue in 10 minutes.\n")
             time.sleep(600)
         elif check_char == 'E':
-            print("Attempting to continue in 30 seconds.\n")
+            print("\nAttempting to continue in 30 seconds.\n")
             time.sleep(30)
         elif check_char == 'S':
-            print("Request limit reached. Attempting to continue in 30 seconds.\n")
+            print("\nRequest limit reached. Attempting to continue in 30 seconds.\n")
             time.sleep(30)
         elif check_char == 'U':
-            print("Empty info returned. Attempting to continue in 30 seconds.\n")
+            print("\nEmpty info returned. Attempting to continue in 30 seconds.\n")
             time.sleep(30)
         else:
             return s
@@ -79,6 +78,9 @@ def connection_safety_wrapper(method_to_run, ids=None, url=None):
 # region API Accessors
 
 def get_recipe_list():
+    """
+    :return: The list of all in-game recipe IDs
+    """
     return connection_safety_wrapper(gw2.recipes.get)
 
 
@@ -87,9 +89,7 @@ def get_recipe(ids):
     :param ids: The recipe ID
     :return: The object for the Recipe
     """
-    s = connection_safety_wrapper(gw2.recipes.get, ids=ids)
-    return Recipe.from_web(s.get('id'), s.get('output_item_id'), s.get('output_item_count'),
-                           s.get('time_to_craft_ms'), s.get('disciplines'), s.get('ingredients'))
+    return Recipe.from_web(connection_safety_wrapper(gw2.recipes.get, ids=ids))
 
 
 def searchRecipeByOutput(ids):
@@ -112,7 +112,7 @@ def searchRecipeByInput(ids):
 
 def get_item_list():
     """
-    :return: The list of all in-game items
+    :return: The list of all in-game item IDs
     """
     return connection_safety_wrapper(gw2.items.get)
 
@@ -122,8 +122,7 @@ def get_item(ids):
     :param ids: The item ID
     :return: The object for the Item
     """
-    s = connection_safety_wrapper(gw2.items.get, ids=ids)
-    return Item.from_web(ids, s.get('name'), s.get('icon'), 'NoSell' not in s.get('flags'))
+    return Item.from_web(connection_safety_wrapper(gw2.items.get, ids=ids))
 
 
 def getPrices(ids):

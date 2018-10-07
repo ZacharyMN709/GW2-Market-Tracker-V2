@@ -44,8 +44,8 @@ def update_item_table(start=None, end=None):
             count += 1
             try:
                 item = API.get_item(x)
-                item.set_craftable(market)
-                check_char = item.save_item_to_db(market)
+                item.set_craftable()
+                check_char = item.save_item_to_db()
             except MalformedItemError as err:
                 check_char = '!'
                 with open(direc + 'ErrantItems.txt', 'a') as e:
@@ -92,5 +92,5 @@ def update_recipe_table(start=None, end=None):
 
 
 if __name__ == '__main__':
-    #update_recipe_table()
-    update_item_table(start=50000)
+    update_recipe_table()
+    #update_item_table()

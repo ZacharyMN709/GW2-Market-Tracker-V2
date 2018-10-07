@@ -1,12 +1,25 @@
 import src.API_Link as API
-import src.Parser as Parser
-from Objects.Item import Item
-from Objects.Recipe import Recipe
+import src.Database_Link as DB
+from Objects.Item import Item, ITEM_IN_DATABSE
+from Objects.Recipe import Recipe, RECIPE_IN_DATABSE
+
+
+class Trawler:
+
+    def __init__(self, itmID):
+        self.itmID = itmID
+        self.items = dict()
+        self.recipes = dict()
+
+    def travel_crafting_tree(self):
+        market = DB.DatabaseLink()
+        item = market.conn.execute()
+        pass
+
 
 #######################
 ### Struct Trawlers ###
 #######################
-
 
 def TrawlCraftingTree(ids, tree=False):
     print("Trawling Recipes and Items...")

@@ -32,26 +32,6 @@ def GetDamaskPrice(time):
 '''
 
 
-def parse_recipe(s):
-    """
-    :param s: API Recipe JSON Object
-    :return: The dictionary of relevant recipe data
-    """
-
-    out = {'itmID': s['output_item_id'], 'count': s['output_item_count'], 'craft_time': s['time_to_craft_ms'],
-           'crafter_class': s['disciplines'], 'components': s['ingredients']}
-    return out
-
-
-def parse_item(s):
-    """
-    :param s: API Item JSON Object
-    :return: Tuple containing: (Item Name, Item Icon Link, Sellable)
-    """
-    out = (s.get('name'), s.get('icon'), 'NoSell' not in s.get('flags'))
-    return out
-
-
 def parse_prices(s):
     """
     :param s: API Prices JSON Object
@@ -67,5 +47,14 @@ def parse_listings(s):
     :return: Tuple containing: (Item ID, (Buy Tuple), (Sell Tuple))
     The Buy and Sell tuples have (Prc., Qty.) pairs as entries.
     """
-    return s['id'], ((x['unit_price'], x['quantity']) for x in s['buys']), ((x['unit_price'], x['quantity']) for x in s['sells'])
+    return s['id'], [(x['unit_price'], x['quantity']) for x in s['buys']], [(x['unit_price'], x['quantity']) for x in s['sells']]
 
+
+if __name__ == '__main__':
+    s = API.getPrices(71334)
+    print(s)
+    print(parse_prices(s))
+
+    s = API.getListings(71334)
+    print(s)
+    print(parse_listings(s))
