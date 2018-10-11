@@ -24,6 +24,8 @@ def get_timestamp_time():
 class Trawler:
 
     def __init__(self, itmID):
+        self.instance = TRAWL_COUNTER
+        self.start = START_TIME + ((TRAWL_TIME / TRAWL_MAX) * TRAWL_COUNTER) % TRAWL_TIME
         self.itmID = itmID
         self.items = dict()
         self.recipes = dict()
@@ -31,7 +33,7 @@ class Trawler:
         self.travel_crafting_tree(self.itmID)
         self.filename = PATH + 'Item Trawl Log - {}.txt'.format(self.itmID)
         with open(self.filename, 'a') as file:
-            file.write('\nTrawler Initialized at {}\n'.format(get_display_time()))
+            file.write('\nTrawler {} Initialized at {}\n'.format(self.instance, get_display_time()))
         self.db = DB()
 
     def __str__(self):
@@ -40,8 +42,6 @@ class Trawler:
     def __enter__(self):
         global TRAWL_COUNTER
         TRAWL_COUNTER += 1
-        self.instance = TRAWL_COUNTER
-        self.start = START_TIME + ((TRAWL_TIME / TRAWL_MAX) * TRAWL_COUNTER) % TRAWL_TIME
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         global TRAWL_COUNTER
