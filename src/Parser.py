@@ -32,15 +32,6 @@ def GetDamaskPrice(time):
 '''
 
 
-def parse_prices(s):
-    """
-    :param s: API Prices JSON Object
-    :return: Tuple containing: (Item ID, Buy Prc., Quy Qty., Sell Prc., Sell Qty.)
-    """
-    vals = (s['id'], s['buys']['unit_price'], s['buys']['quantity'], s['sells']['unit_price'], s['sells']['quantity'])
-    return vals
-
-
 def parse_listings(s):
     """
     :param s: API Listings JSON Object

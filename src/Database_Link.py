@@ -8,7 +8,7 @@ class DatabaseLink:
      and automatically closes the connection when the object goes out of scope.
     """
 
-    ## TODO - Better handle database hardcode, and consider how to merge databases.
+    ## TODO - Better handle database hardcode.
     def __init__(self):
         self.name = 'gw2_market_data'
         self.path = 'C:\\Users\\Zachary\\Documents\\GitHub\\GW2-Market-Tracker-V2\\Databases\\'

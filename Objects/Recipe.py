@@ -1,4 +1,6 @@
 import src.Database_Link as DB
+from ast import literal_eval
+
 
 class MalformedRecipeError(Exception):
     def __init__(self, message):
@@ -9,6 +11,7 @@ class MalformedRecipeError(Exception):
 
 SAVE_RECIPE_QUERY = "INSERT INTO Recipes VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"
 RECIPE_IN_DATABSE = "SELECT * FROM Recipes WHERE recID = ?"
+RECIPE_BY_ITEM = "SELECT * FROM Recipes WHERE itmID = ?"
 CRAFTING_CLASSES = ('Artificer', 'Armorsmith', 'Chef', 'Huntsman', 'Jeweler', 'Leatherworker', 'Tailor', 'Weaponsmith', 'Scribe')
 
 
@@ -64,7 +67,6 @@ class Recipe:
             self.db_link.conn.commit()
             return "."
         else:
-            ## TODO - Update if recipe already in DB
             return ","
 
     @classmethod
@@ -80,12 +82,25 @@ class Recipe:
         return cls(recID, itmID, count, craft_time, components, crafters)
 
     @classmethod
-    def from_rec_table(cls, recID):
+    def by_recipe_id(cls, recID):
         db_link = DB.DatabaseLink()
         recipe = db_link.conn.execute(RECIPE_IN_DATABSE, (recID,)).fetchall()[0]
         return cls(recipe[0], recipe[1], recipe[2], recipe[3], recipe[4], recipe[5:])
 
+    @classmethod
+    def by_item_id(cls, itmID):
+        db_link = DB.DatabaseLink()
+        recipes = db_link.conn.execute(RECIPE_BY_ITEM, (itmID,)).fetchall()
+        out = []
+        for recipe in recipes:
+            out.append(cls(recipe[0], recipe[1], recipe[2], recipe[4], literal_eval(recipe[3]), recipe[5:]))
+        return out
+
 
 if __name__ == '__main__':
-    r = Recipe.from_rec_table(10122)
+    r = Recipe.by_recipe_id(10122)
     print(r)
+
+    rs = Recipe.by_item_id(71334)
+    for x in rs:
+        print(x)

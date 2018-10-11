@@ -1,5 +1,6 @@
 import src.Database_Link as DB
 
+
 class MalformedItemError(Exception):
     def __init__(self, message):
 
@@ -48,7 +49,6 @@ class Item:
             self.db_link.conn.commit()
             return "."
         else:
-            ## TODO - Update if item is already in DB
             return ","
 
     @classmethod
@@ -68,12 +68,16 @@ class Item:
         return cls(itmID, name, icon, sellable, None)
 
     @classmethod
-    def from_item_table(cls, itmID):
+    def by_item_id(cls, itmID):
+        """
+        :param itmID: The item ID
+        :return: Item object
+        """
         db_link = DB.DatabaseLink()
         item = db_link.conn.execute(ITEM_IN_DATABSE, (itmID,)).fetchall()[0]
         return cls(item[0], item[1], item[2], item[3], item[4])
 
 
 if __name__ == '__main__':
-    i = Item.from_item_table(71334)
+    i = Item.by_item_id(71334)
     print(i)

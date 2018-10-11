@@ -13,7 +13,7 @@ gw2 = GuildWars2Client(api_key=API)
 
 # region Connection Safety
 
-def connection_safety_wrapper(method_to_run, ids=None, url=None):
+def connection_safety_wrapper(method_to_run, ids=None, url=None, allow_empty=False):
     """
     This function is an encapsulating function which protects the code from crashing from connection errors
     or the API being down. If there is an error, it will retry the connection in a predetermined amount of time.
@@ -67,8 +67,12 @@ def connection_safety_wrapper(method_to_run, ids=None, url=None):
             print("\nRequest limit reached. Attempting to continue in 30 seconds.\n")
             time.sleep(30)
         elif check_char == 'U':
-            print("\nEmpty info returned. Attempting to continue in 30 seconds.\n")
-            time.sleep(30)
+            if allow_empty:
+                return None
+            else:
+                print(ids)
+                print("\nEmpty info returned. Attempting to continue in 5 seconds.\n")
+                time.sleep(5)
         else:
             return s
 
@@ -125,8 +129,16 @@ def get_item(ids):
     return Item.from_web(connection_safety_wrapper(gw2.items.get, ids=ids))
 
 
-def getPrices(ids):
-    return connection_safety_wrapper(gw2.commerceprices.get, ids=ids)
+def get_prices(ids):
+    """
+    :param s: The item ID
+    :return: Tuple containing: (Item ID, Buy Prc., Quy Qty., Sell Prc., Sell Qty.)
+    """
+    s = connection_safety_wrapper(gw2.commerceprices.get, ids=ids, allow_empty=True)
+    if s:
+        return s['id'], s['buys']['unit_price'], s['buys']['quantity'], s['sells']['unit_price'], s['sells']['quantity']
+    else:
+        return None
 
 
 def getListings(ids):
@@ -140,13 +152,6 @@ def getBuys():
 def getSells():
     return connection_safety_wrapper(gw2.commercetransactions.history.sells.get)
 
-
-def checkAPI():
-    """
-    :return: True is the API is active, false otherwise.
-    """
-    s = connection_safety_wrapper(gw2.tokeninfo.get)
-    return not str(s) == "{'text': 'API not active'}"
 
 # endregion
 

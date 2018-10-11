@@ -24,3 +24,16 @@ CREATE TABLE Items (
     sellable  BOOLEAN NOT NULL,
     craftable BOOLEAN NOT NULL
 );
+
+CREATE TABLE Market (
+    time     TIME    NOT NULL,
+    itmID    INTEGER NOT NULL,
+    buy_prc  INTEGER NOT NULL,
+    buy_amt  INTEGER NOT NULL,
+    sell_prc INTEGER NOT NULL,
+    sell_amt INTEGER NOT NULL,
+    PRIMARY KEY (
+        time,
+        itmID
+    )
+);
