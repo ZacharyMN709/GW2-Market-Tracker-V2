@@ -136,14 +136,35 @@ def get_prices(ids):
     """
     s = connection_safety_wrapper(gw2.commerceprices.get, ids=ids, allow_empty=True)
     if s:
-        return s['id'], s['buys']['unit_price'], s['buys']['quantity'], s['sells']['unit_price'], s['sells']['quantity']
+        try:
+            return (s['id'], s['buys']['unit_price'], s['buys']['quantity'],
+                    s['sells']['unit_price'], s['sells']['quantity'])
+        except KeyError as e:
+            print(e)
+            print(s)
+            return None
     else:
         return None
 
 
 def getListings(ids):
-    return connection_safety_wrapper(gw2.commercelistings.get, ids=ids)
+    """
+        :param s: API Listings JSON Object
+        :return: Tuple containing: (Item ID, (Buy Tuple), (Sell Tuple))
+        The Buy and Sell tuples have (Prc., Qty.) pairs as entries.
+        """
 
+    s = connection_safety_wrapper(gw2.commercelistings.get, ids=ids)
+    if s:
+        try:
+            return (s['id'], [(x['unit_price'], x['quantity']) for x in s['buys']],
+                   [(x['unit_price'], x['quantity']) for x in s['sells']])
+        except KeyError as e:
+            print(e)
+            print(s)
+            return None
+    else:
+        return None
 
 def getBuys():
     return connection_safety_wrapper(gw2.commercetransactions.history.buys.get)
