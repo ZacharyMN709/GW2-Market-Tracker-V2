@@ -4,9 +4,9 @@ from ast import literal_eval
 
 class MalformedRecipeError(Exception):
     def __init__(self, message):
-
-        # Call the base class constructor with the parameters it needs
         super().__init__(message)
+
+# TODO - Implement Memoization
 
 
 SAVE_RECIPE_QUERY = "INSERT INTO Recipes VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"
@@ -16,6 +16,18 @@ CRAFTING_CLASSES = ('Artificer', 'Armorsmith', 'Chef', 'Huntsman', 'Jeweler', 'L
 
 
 class Recipe:
+    recipes = {}
+
+    def __new__(cls, recID, itmID, count, craft_time, components, crafters):
+        """
+        Memoizes the object, so recursion is both quicker and updates objects globally
+        """
+        if recID in Recipe.recipes:
+            print('exists!')
+            return Recipe.recipes[recID]
+        else:
+            Recipe.recipes[recID] = super(Recipe, cls).__new__(cls)
+            return Recipe.recipes[recID]
 
     def __init__(self, recID, itmID, count, craft_time, components, crafters):
         self.recID = recID
@@ -52,7 +64,7 @@ class Recipe:
                 self.craft_time,
                 self.components,
                 self.crafters
-        )
+                )
 
     def save_recipe_to_db(self):
         """
@@ -85,22 +97,28 @@ class Recipe:
     def by_recipe_id(cls, recID):
         db_link = DB.DatabaseLink()
         recipe = db_link.conn.execute(RECIPE_IN_DATABSE, (recID,)).fetchall()[0]
-        return cls(recipe[0], recipe[1], recipe[2], recipe[3], recipe[4], recipe[5:])
+        return cls(recipe[0], recipe[1], recipe[2], recipe[4], recipe[3], recipe[5:])
 
     @classmethod
     def by_item_id(cls, itmID):
         db_link = DB.DatabaseLink()
         recipes = db_link.conn.execute(RECIPE_BY_ITEM, (itmID,)).fetchall()
-        out = []
-        for recipe in recipes:
-            out.append(cls(recipe[0], recipe[1], recipe[2], recipe[4], literal_eval(recipe[3]), recipe[5:]))
-        return out
+        return [(cls(recipe[0], recipe[1], recipe[2], recipe[4], literal_eval(recipe[3]), recipe[5:])) for recipe in recipes]
 
 
 if __name__ == '__main__':
     r = Recipe.by_recipe_id(10122)
+    print([r])
+    print(r)
+    r.components = 100
+    print([r])
     print(r)
 
     rs = Recipe.by_item_id(71334)
     for x in rs:
+        print([x])
         print(x)
+
+    print(Recipe.recipes)
+    print(Recipe.recipes[10122])
+

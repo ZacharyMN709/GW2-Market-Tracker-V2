@@ -3,6 +3,7 @@ import time
 from Objects.Item import Item
 from Objects.Recipe import Recipe
 from src.Database_Link import DatabaseLink as DB
+import threading
 
 
 TRAWL_TIME = 300.0
@@ -23,17 +24,18 @@ def get_timestamp_time():
 
 class Trawler:
 
+    # TODO - Better implement instances of objects.
     def __init__(self, itmID):
-        self.instance = TRAWL_COUNTER
-        self.start = START_TIME + ((TRAWL_TIME / TRAWL_MAX) * TRAWL_COUNTER) % TRAWL_TIME
+        self._instance = TRAWL_COUNTER
+        self._start = START_TIME + ((TRAWL_TIME / TRAWL_MAX) * TRAWL_COUNTER) % TRAWL_TIME
         self.itmID = itmID
         self.items = dict()
         self.recipes = dict()
         self.craft_tree = str()
-        self.travel_crafting_tree(self.itmID)
-        self.filename = PATH + 'Item Trawl Log - {}.txt'.format(self.itmID)
-        with open(self.filename, 'a') as file:
-            file.write('\nTrawler {} Initialized at {}\n'.format(self.instance, get_display_time()))
+        self._travel_crafting_tree(self.itmID)
+        self._filename = PATH + 'Item Trawl Log - {}.txt'.format(self.itmID)
+        with open(self._filename, 'a') as file:
+            file.write('\nTrawler {} Initialized at {}\n'.format(self._instance, get_display_time()))
         self.db = DB()
 
     def __str__(self):
@@ -48,7 +50,7 @@ class Trawler:
         TRAWL_COUNTER -= 1
         self.db.close()
 
-    def travel_crafting_tree(self, item_id, spaces=0):
+    def _travel_crafting_tree(self, item_id, spaces=0):
         # Get the item by ID and add to the dictionary
         item = Item.by_item_id(item_id)
         self.items[item.itmID] = item
@@ -70,33 +72,39 @@ class Trawler:
                 if len(recipes) > 1:
                     self.craft_tree += (' '*spaces) + '----------'
                 for component_pair in recipe.components:
-                    self.travel_crafting_tree(component_pair[0], spaces=spaces+1)
+                    self._travel_crafting_tree(component_pair[0], spaces=spaces+1)
                 if len(recipes) > 1:
                     self.craft_tree += (' ' * spaces) + '----------'
 
-    def loop(self):
-        ## TODO - Put the trawl loop in asynchronous task.
-        external_count = 0
-        while True:
-            time.sleep(TRAWL_TIME - ((time.time() - self.start) % TRAWL_TIME))
-            with open(self.filename, 'a') as file:
-                external_count += 1
-                file.write("{}: Loop #{} - Starting Trawl...\n".format(get_display_time(), external_count))
-                timestamp = (get_timestamp_time(),)
-                internal_count = 0
-                for i in self.items:
-                    price_tuple = API.get_prices(i)
-                    if price_tuple:
-                        self.db.conn.execute(SAVE_PRICE_QUERY, timestamp + price_tuple)
-                        file.write("{}: .    ".format(i))
-                    else:
-                        file.write("{}: !    ".format(i))
-                    internal_count += 1
-                    if internal_count % 6 == 0: file.write("\n")
-                self.db.commit()
-                file.write("{}: Loop #{} - Trawl Complete\n\n".format(get_display_time(), external_count))
+    def trawl(self, count='Manual'):
+        with open(self._filename, 'a') as file:
+            file.write("{}: Loop #{} - Starting Trawl...\n".format(get_display_time(), count))
+            timestamp = (get_timestamp_time(),)
+            internal_count = 0
+            for i in self.items:
+                price_tuple = API.get_prices(i)
+                if price_tuple:
+                    self.db.conn.execute(SAVE_PRICE_QUERY, timestamp + price_tuple)
+                    file.write("{}: .    ".format(i))
+                else:
+                    file.write("{}: !    ".format(i))
+                internal_count += 1
+                if internal_count % 6 == 0: file.write("\n")
+            self.db.commit()
+            file.write("{}: Loop #{} - Trawl Complete\n\n".format(get_display_time(), count))
+
+    def async_loop(self):
+        def loop():
+            count = 0
+            while True:
+                self.trawl(count)
+                count += 1
+                time.sleep(TRAWL_TIME - ((time.time() - self._start) % TRAWL_TIME))
+        threading.Thread(target=loop()).start()
 
 
 if __name__ == '__main__':
-    t = Trawler(71334)
-    t.loop()
+    damask = Trawler(71334)
+    cloth = Trawler(46741)
+    square = Trawler(46739)
+    damask.async_loop()

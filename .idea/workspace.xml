@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cf2067d6-6fc8-4bd9-80a3-423ae0381780" name="Default" comment="">
+    <list default="true" id="cf2067d6-6fc8-4bd9-80a3-423ae0381780" name="Default" comment="Added a safety for empty responses due to items not being present in the market.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/Databases/gw2_market_data.db" afterPath="$PROJECT_DIR$/Databases/gw2_market_data.db" />
-      <change beforePath="$PROJECT_DIR$/Logs/Item Trawl Log - 71334.txt" afterPath="$PROJECT_DIR$/Logs/Item Trawl Log - 71334.txt" />
-      <change beforePath="$PROJECT_DIR$/src/API_Link.py" afterPath="$PROJECT_DIR$/src/API_Link.py" />
+      <change beforePath="$PROJECT_DIR$/Objects/Item.py" afterPath="$PROJECT_DIR$/Objects/Item.py" />
+      <change beforePath="$PROJECT_DIR$/Objects/Recipe.py" afterPath="$PROJECT_DIR$/Objects/Recipe.py" />
+      <change beforePath="$PROJECT_DIR$/src/Parser.py" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/Trawler.py" afterPath="$PROJECT_DIR$/src/Trawler.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -15,13 +16,13 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/GW2_Market_Tracker_V2$Item.coverage" NAME="Item Coverage Results" MODIFIED="1538934602724" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Objects" />
+    <SUITE FILE_PATH="coverage/GW2_Market_Tracker_V2$Item.coverage" NAME="Item Coverage Results" MODIFIED="1540434300636" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Objects" />
     <SUITE FILE_PATH="coverage/GW2_Market_Tracker$Test.coverage" NAME="Test Coverage Results" MODIFIED="1537144840646" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/GW2_Market_Tracker$Updater.coverage" NAME="Updater Coverage Results" MODIFIED="1537571407141" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/GW2_Market_Tracker_V2$Parser.coverage" NAME="Parser Coverage Results" MODIFIED="1538930562561" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/GW2_Market_Tracker_V2$Trawler.coverage" NAME="Trawler Coverage Results" MODIFIED="1539253553119" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/GW2_Market_Tracker_V2$Updater.coverage" NAME="Updater Coverage Results" MODIFIED="1538941130878" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
-    <SUITE FILE_PATH="coverage/GW2_Market_Tracker_V2$Recipe.coverage" NAME="Recipe Coverage Results" MODIFIED="1538935762539" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Objects" />
+    <SUITE FILE_PATH="coverage/GW2_Market_Tracker_V2$Recipe.coverage" NAME="Recipe Coverage Results" MODIFIED="1540433953815" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Objects" />
   </component>
   <component name="DatabaseView">
     <option name="SHOW_INTERMEDIATE" value="true" />
@@ -42,35 +43,66 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="API_Link.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="API_Link.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/API_Link.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1324">
+            <state relative-caret-position="1258">
               <caret line="144" column="23" lean-forward="true" selection-start-line="144" selection-start-column="23" selection-end-line="144" selection-end-column="23" />
               <folding>
-                <element signature="e#450#3063#0" expanded="false" />
+                <element signature="e#333#359#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Parser.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Parser.py">
+      <file leaf-file-name="Trawler.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Trawler.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="390">
-              <caret line="41" column="0" lean-forward="true" selection-start-line="35" selection-start-column="4" selection-end-line="41" selection-end-column="0" />
+            <state relative-caret-position="257">
+              <caret line="26" column="51" lean-forward="true" selection-start-line="26" selection-start-column="51" selection-end-line="26" selection-end-column="51" />
+              <folding>
+                <element signature="e#0#26#0" expanded="true" />
+                <marker date="1540426333291" expanded="true" signature="313:357" ph="INSERT INTO Market... " />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Item.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Objects/Item.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="765">
+              <caret line="101" column="13" lean-forward="true" selection-start-line="101" selection-start-column="13" selection-end-line="101" selection-end-column="13" />
+              <folding>
+                <element signature="e#0#30#0" expanded="true" />
+                <marker date="1540434496535" expanded="true" signature="244:284" ph="INSERT INTO Items... " />
+                <marker date="1540434496535" expanded="true" signature="309:350" ph="SELECT recID... Recipes" />
+                <marker date="1540434496535" expanded="true" signature="371:406" ph="SELECT itmID... Items" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Updater.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Updater.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="144">
+              <caret line="44" column="21" lean-forward="false" selection-start-line="44" selection-start-column="21" selection-end-line="44" selection-end-column="21" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Trawler.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Trawler.py">
+      <file leaf-file-name="Recipe.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Objects/Recipe.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-256">
-              <caret line="39" column="30" lean-forward="true" selection-start-line="39" selection-start-column="30" selection-end-line="39" selection-end-column="30" />
+            <state relative-caret-position="1972">
+              <caret line="116" column="33" lean-forward="true" selection-start-line="116" selection-start-column="33" selection-end-line="116" selection-end-column="33" />
               <folding>
-                <marker date="1539216416137" expanded="true" signature="296:340" ph="INSERT INTO Market... " />
+                <element signature="e#0#30#0" expanded="true" />
+                <marker date="1540429775072" expanded="true" signature="223:292" ph="INSERT INTO Recipes... " />
+                <marker date="1540429775072" expanded="true" signature="316:353" ph="SELECT recID... Recipes" />
+                <marker date="1540429775072" expanded="true" signature="373:410" ph="SELECT * FRO... Recipes" />
               </folding>
             </state>
           </provider>
@@ -106,13 +138,14 @@
         <option value="$PROJECT_DIR$/src/Updater.py" />
         <option value="$PROJECT_DIR$/src/Controller.py" />
         <option value="$PROJECT_DIR$/src/Database_Link.py" />
+        <option value="$PROJECT_DIR$/Databases/gw2_market_data_schema.sql" />
+        <option value="$PROJECT_DIR$/Logs/Item Trawl Log - 71334.txt" />
+        <option value="$PROJECT_DIR$/src/API_Link.py" />
+        <option value="$PROJECT_DIR$/src/Parser.py" />
+        <option value="$PROJECT_DIR$/src/Trawler.py" />
+        <option value="$PROJECT_DIR$/src/Memoizer.py" />
         <option value="$PROJECT_DIR$/Objects/Recipe.py" />
         <option value="$PROJECT_DIR$/Objects/Item.py" />
-        <option value="$PROJECT_DIR$/Databases/gw2_market_data_schema.sql" />
-        <option value="$PROJECT_DIR$/src/Trawler.py" />
-        <option value="$PROJECT_DIR$/Logs/Item Trawl Log - 71334.txt" />
-        <option value="$PROJECT_DIR$/src/Parser.py" />
-        <option value="$PROJECT_DIR$/src/API_Link.py" />
       </list>
     </option>
   </component>
@@ -204,7 +237,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.Trawler">
+  <component name="RunManager" selected="Python.Item">
     <configuration name="Item" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -309,10 +342,10 @@
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.Trawler" />
-        <item index="1" class="java.lang.String" itemvalue="Python.Updater" />
-        <item index="2" class="java.lang.String" itemvalue="Python.Recipe" />
-        <item index="3" class="java.lang.String" itemvalue="Python.Item" />
+        <item index="0" class="java.lang.String" itemvalue="Python.Item" />
+        <item index="1" class="java.lang.String" itemvalue="Python.Recipe" />
+        <item index="2" class="java.lang.String" itemvalue="Python.Trawler" />
+        <item index="3" class="java.lang.String" itemvalue="Python.Updater" />
         <item index="4" class="java.lang.String" itemvalue="Python.Parser" />
       </list>
     </recent_temporary>
@@ -387,7 +420,14 @@
       <option name="project" value="LOCAL" />
       <updated>1539226525728</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Added a safety for empty responses due to items not being present in the market.">
+      <created>1540303866792</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1540303866792</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TodoView">
@@ -401,19 +441,19 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32730263" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24671052" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24671052" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32730263" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22995462" sideWeight="0.49126637" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22995462" sideWeight="0.49126637" order="0" side_tool="false" content_ui="combo" />
       <window_info id="R Packages" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="R Graphics" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32894737" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="SciView" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -424,7 +464,6 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32894737" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -444,7 +483,8 @@
     <MESSAGE value="Further rework of Recipe and Item objects.&#10;Added ability to generate object from database by handing in ID." />
     <MESSAGE value="Added Trawler object.&#10;It handles continuously requesting item data from the API and saving the results to the database.&#10;I intend to add an upper limit to them, and enable them to loop asynchronously." />
     <MESSAGE value="Added Trawler object.&#10;It handles continuously requesting item data from the API and saving the results to the database.&#10;I intend to add an upper limit to them, and enable them to loop asynchronously.&#10;&#10;Adding data from trawl." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Trawler object.&#10;It handles continuously requesting item data from the API and saving the results to the database.&#10;I intend to add an upper limit to them, and enable them to loop asynchronously.&#10;&#10;Adding data from trawl." />
+    <MESSAGE value="Added a safety for empty responses due to items not being present in the market." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added a safety for empty responses due to items not being present in the market." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -453,13 +493,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Parser.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="884">
-          <caret line="52" column="10" lean-forward="false" selection-start-line="52" selection-start-column="10" selection-end-line="53" selection-end-column="77" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Database_Link.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="408">
@@ -472,10 +505,10 @@
         <state relative-caret-position="442">
           <caret line="26" column="31" lean-forward="true" selection-start-line="26" selection-start-column="31" selection-end-line="26" selection-end-column="31" />
           <folding>
-            <element signature="e#0#30#0" expanded="false" />
-            <marker date="1539214288745" expanded="true" signature="263:332" ph="INSERT INTO Recipes... " />
-            <marker date="1539214288745" expanded="true" signature="356:393" ph="SELECT recID... Recipes" />
-            <marker date="1539214288745" expanded="true" signature="413:450" ph="SELECT * FRO... Recipes" />
+            <element signature="e#0#30#0" expanded="true" />
+            <marker date="1540429775072" expanded="true" signature="223:292" ph="INSERT INTO Recipes... " />
+            <marker date="1540429775072" expanded="true" signature="316:353" ph="SELECT recID... Recipes" />
+            <marker date="1540429775072" expanded="true" signature="373:410" ph="SELECT * FRO... Recipes" />
           </folding>
         </state>
       </provider>
@@ -485,7 +518,7 @@
         <state relative-caret-position="306">
           <caret line="21" column="19" lean-forward="false" selection-start-line="21" selection-start-column="19" selection-end-line="21" selection-end-column="19" />
           <folding>
-            <element signature="e#450#3063#0" expanded="false" />
+            <element signature="e#333#359#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -516,7 +549,7 @@
         <state relative-caret-position="306">
           <caret line="21" column="19" lean-forward="false" selection-start-line="21" selection-start-column="19" selection-end-line="21" selection-end-column="19" />
           <folding>
-            <element signature="e#450#3063#0" expanded="false" />
+            <element signature="e#333#359#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -548,7 +581,7 @@
         <state relative-caret-position="0">
           <caret line="0" column="26" lean-forward="false" selection-start-line="0" selection-start-column="26" selection-end-line="0" selection-end-column="26" />
           <folding>
-            <element signature="e#450#3063#0" expanded="false" />
+            <element signature="e#333#359#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -714,38 +747,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Updater.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Objects/Recipe.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="222">
-          <caret line="69" column="0" lean-forward="false" selection-start-line="69" selection-start-column="0" selection-end-line="69" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#30#0" expanded="false" />
-            <marker date="1539214288745" expanded="true" signature="263:332" ph="INSERT INTO Recipes... " />
-            <marker date="1539214288745" expanded="true" signature="356:393" ph="SELECT recID... Recipes" />
-            <marker date="1539214288745" expanded="true" signature="413:450" ph="SELECT * FRO... Recipes" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Objects/Item.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="51" column="0" lean-forward="false" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
-          <folding>
-            <marker date="1539214288894" expanded="true" signature="230:270" ph="INSERT INTO Items... " />
-            <marker date="1539214288894" expanded="true" signature="295:336" ph="SELECT recID... Recipes" />
-            <marker date="1539214288894" expanded="true" signature="357:392" ph="SELECT itmID... Items" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Controller.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
@@ -775,30 +776,73 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Trawler.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-256">
-          <caret line="39" column="30" lean-forward="true" selection-start-line="39" selection-start-column="30" selection-end-line="39" selection-end-column="30" />
-          <folding>
-            <marker date="1539216416137" expanded="true" signature="296:340" ph="INSERT INTO Market... " />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Parser.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="41" column="0" lean-forward="true" selection-start-line="35" selection-start-column="4" selection-end-line="41" selection-end-column="0" />
+        <state relative-caret-position="34">
+          <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/API_Link.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1324">
+        <state relative-caret-position="1258">
           <caret line="144" column="23" lean-forward="true" selection-start-line="144" selection-start-column="23" selection-end-line="144" selection-end-column="23" />
           <folding>
-            <element signature="e#450#3063#0" expanded="false" />
+            <element signature="e#333#359#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Memoizer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-153">
+          <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Updater.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="44" column="21" lean-forward="false" selection-start-line="44" selection-start-column="21" selection-end-line="44" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Objects/Item.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="765">
+          <caret line="101" column="13" lean-forward="true" selection-start-line="101" selection-start-column="13" selection-end-line="101" selection-end-column="13" />
+          <folding>
+            <element signature="e#0#30#0" expanded="true" />
+            <marker date="1540434496535" expanded="true" signature="244:284" ph="INSERT INTO Items... " />
+            <marker date="1540434496535" expanded="true" signature="309:350" ph="SELECT recID... Recipes" />
+            <marker date="1540434496535" expanded="true" signature="371:406" ph="SELECT itmID... Items" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Objects/Recipe.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1972">
+          <caret line="116" column="33" lean-forward="true" selection-start-line="116" selection-start-column="33" selection-end-line="116" selection-end-column="33" />
+          <folding>
+            <element signature="e#0#30#0" expanded="true" />
+            <marker date="1540429775072" expanded="true" signature="223:292" ph="INSERT INTO Recipes... " />
+            <marker date="1540429775072" expanded="true" signature="316:353" ph="SELECT recID... Recipes" />
+            <marker date="1540429775072" expanded="true" signature="373:410" ph="SELECT * FRO... Recipes" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Trawler.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="257">
+          <caret line="26" column="51" lean-forward="true" selection-start-line="26" selection-start-column="51" selection-end-line="26" selection-end-column="51" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+            <marker date="1540426333291" expanded="true" signature="313:357" ph="INSERT INTO Market... " />
           </folding>
         </state>
       </provider>
